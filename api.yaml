@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+  title: Customer Service API
+  version: 1.0.0
+paths:
+  /customers:
+    post:
+      summary: Create a new customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /customers/{customerId}:
+    get:
+      summary: Retrieve a customer by ID
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          description: ID of the customer to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Customer found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+    put:
+      summary: Update a customer's information
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          description: ID of the customer to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdateInput'
+
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+    delete:
+      summary: Delete a customer
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          description: ID of the customer to delete
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Successfully deleted
+        '404':
+          description: Customer not found
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+    CustomerInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    CustomerUpdateInput:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
