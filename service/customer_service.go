@@ -79,7 +79,7 @@ func updateCustomer(db *db.PostgresDB, c *gin.Context) (int, *Customer, error) {
 	}
 	if len(customer.Name) != 0 {
 		fieldsNum += 1
-		stmt += fmt.Sprintf("name = $%d ", fieldsNum)
+		stmt += fmt.Sprintf(",name = $%d ", fieldsNum)
 		fields = append(fields, customer.Name)
 	}
 	if fieldsNum == 0 {
